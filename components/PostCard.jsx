@@ -2,8 +2,12 @@ import React from 'react'
 import Link from 'next/link'
 
 const PostCard = ({ post }) => {
-    console.log(post.createdAt)
-    let createdAt = new Date(post.createdAt).toDateString().split(' ')
+    let createdAt
+    try {
+        createdAt = new Date(post.createdAt).toDateString().split(' ')
+    } catch {
+        createdAt = new Date().toDateString().split(' ')
+    }
     createdAt = `${createdAt[1]} ${createdAt[2]}, ${createdAt[3]}`
     return (
         <div className='bg-white shadow-lg rounded-lg p-0 lg:p-8 pb-12 mb-8'>
@@ -39,6 +43,16 @@ const PostCard = ({ post }) => {
                         {createdAt}
                     </span>
                 </div>
+            </div>
+            <p className='text-center text-lg font-normal px-4 lg:px-20 mb-8'>
+                {post.excerpt}
+            </p>
+            <div className='text-center'>
+                <Link href={`/post/${post.slug}`}>
+                    <span className='transition duration-500 transform hover:-translate-y-1 inline-block bg-pink-600 text-lg font-medium rounded-full text-white px-8 py-3 cursor-pointer'>
+                        Continue Reading
+                    </span>
+                </Link>
             </div>
         </div>
     )
